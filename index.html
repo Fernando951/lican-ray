@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBFBF8">
+<title>Huerto Lican Ray</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* All theme values live here. Logic mirrors build_digest.py — change both together. */
+:root{
+  --bg:#FBFBF8; --surface:#FFFFFF; --ink:#16211B; --ink-2:#4A5650; --line:#DCE1DC;
+  --plum:#5A2346; --plum-soft:#F3E9EF;
+  --red:#B3261E; --red-bg:#FCE8E6;
+  --amber:#8A4B00; --amber-bg:#FDEFD3; --amber-bar:#D98A1C;
+  --green:#22613A; --green-bg:#E3F1E7; --green-bar:#3C8C57;
+  --neutral:#4A5650; --neutral-bg:#ECEEEB;
+  --font-ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --fs-body:18px; --fs-small:15.5px; --fs-title:21px; --fs-h1:28px;
+  --gap:14px; --pad:18px; --radius-card:14px; --radius-pill:999px;
+  --tab-h:68px; --tap:52px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:var(--fs-body);line-height:1.4;
+  padding-bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 16px);-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:0 var(--pad)}
+header{padding:22px 0 10px}
+h1{font-size:var(--fs-h1);font-weight:800;letter-spacing:-.01em;margin:0;line-height:1.1}
+h1 .plum{color:var(--plum)}
+.updated{margin-top:6px;color:var(--ink-2);font-size:var(--fs-small)}
+.updated .mono{font-family:var(--font-mono);font-size:.93em}
+.summary{display:flex;gap:10px;margin:16px 0 6px;flex-wrap:wrap}
+.count{flex:1 1 0;min-width:92px;border-radius:12px;padding:10px 12px;background:var(--surface);border:1.5px solid var(--line)}
+.count b{display:block;font-family:var(--font-mono);font-size:30px;font-weight:600;line-height:1}
+.count span{font-size:var(--fs-small);color:var(--ink-2)}
+.count.red{border-color:var(--red);background:var(--red-bg)} .count.red b{color:var(--red)}
+.count.amber{border-color:var(--amber-bar);background:var(--amber-bg)} .count.amber b{color:var(--amber)}
+h2{font-size:var(--fs-small);font-weight:700;color:var(--ink-2);margin:26px 0 10px}
+.card{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:var(--surface);
+  border:1.5px solid var(--line);border-left:6px solid var(--line);border-radius:var(--radius-card);
+  padding:14px 16px;margin:0 0 var(--gap);cursor:pointer}
+.card:focus-visible,.tab:focus-visible,.close:focus-visible{outline:3px solid var(--plum);outline-offset:2px}
+.card.overdue{border-left-color:var(--red)} .card.soon{border-left-color:var(--amber-bar)}
+.card.ok{border-left-color:var(--green-bar)} .card.asneeded{border-left-color:var(--neutral)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.name{font-size:var(--fs-title);font-weight:700;line-height:1.2}
+.pill{flex:none;border-radius:var(--radius-pill);padding:5px 11px;font-size:14px;font-weight:700;white-space:nowrap}
+.pill.overdue{background:var(--red);color:#fff} .pill.soon{background:var(--amber-bg);color:var(--amber);border:1.5px solid var(--amber-bar)}
+.pill.ok{background:var(--green-bg);color:var(--green)} .pill.asneeded{background:var(--neutral-bg);color:var(--neutral)}
+.dates{margin-top:8px;font-family:var(--font-mono);font-size:16px}
+.dates .cad{color:var(--ink-2)}
+.sec{margin-top:6px;font-size:var(--fs-small);color:var(--ink)}
+.note{margin-top:4px;font-size:var(--fs-small);color:var(--ink-2)}
+.gauge{margin-top:12px;height:8px;border-radius:4px;background:var(--neutral-bg);overflow:hidden}
+.gauge i{display:block;height:100%;border-radius:4px}
+.gauge i.overdue{background:var(--red)} .gauge i.soon{background:var(--amber-bar)} .gauge i.ok{background:var(--green-bar)} .gauge i.asneeded{background:var(--neutral)}
+.milestone{background:var(--plum-soft);border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:var(--fs-small)}
+.milestone .mono{font-family:var(--font-mono)}
+.logrow{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.logrow .mono{font-family:var(--font-mono);font-size:15px;color:var(--ink-2)}
+.logrow .t{font-weight:600;margin-top:2px}
+.empty{background:var(--surface);border:1.5px dashed var(--line);border-radius:12px;padding:18px;color:var(--ink-2)}
+.msg{margin:40px 0;font-size:var(--fs-body)}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1.5px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav .row{max-width:640px;margin:0 auto;display:flex}
+.tab{flex:1;height:var(--tab-h);background:none;border:0;font:inherit;font-size:17px;font-weight:600;color:var(--ink-2);cursor:pointer;position:relative}
+.tab[aria-selected="true"]{color:var(--plum)}
+.tab[aria-selected="true"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:4px;border-radius:0 0 4px 4px;background:var(--plum)}
+.scrim{position:fixed;inset:0;background:rgba(22,33,27,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:88%;overflow-y:auto;background:var(--surface);
+  border-radius:20px 20px 0 0;transform:translateY(100%);transition:transform .25s ease;z-index:10;
+  padding:10px var(--pad) calc(24px + env(safe-area-inset-bottom,0px))}
+.sheet.open{transform:none}
+.sheet .inner{max-width:640px;margin:0 auto}
+.grab{width:44px;height:5px;border-radius:3px;background:var(--line);margin:4px auto 12px}
+.close{display:block;margin:0 0 0 auto;min-height:var(--tap);padding:0 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);font:inherit;font-weight:600;cursor:pointer}
+.sheet h3{font-size:24px;margin:8px 0 10px;line-height:1.2}
+.kv{margin:14px 0 0}
+.kv dt{font-size:var(--fs-small);color:var(--ink-2);font-weight:600}
+.kv dd{margin:2px 0 12px}
+.kv .mono{font-family:var(--font-mono)}
+.hist{list-style:none;padding:0;margin:4px 0 0}
+.hist li{padding:10px 0;border-top:1px solid var(--line)}
+.hist .mono{font-family:var(--font-mono)}
+@media (prefers-reduced-motion:reduce){.sheet,.scrim{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Huerto <span class="plum">Lican Ray</span></h1>
+    <div class="updated" id="updated">Cargando datos…</div>
+  </header>
+  <main id="main"></main>
+</div>
+
+<nav aria-label="Secciones"><div class="row" role="tablist">
+  <button class="tab" role="tab" data-tab="now" aria-selected="true">Ahora</button>
+  <button class="tab" role="tab" data-tab="all" aria-selected="false">Todo</button>
+  <button class="tab" role="tab" data-tab="log" aria-selected="false">Registro</button>
+</div></nav>
+
+<div class="scrim" id="scrim"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="inner" id="sheetInner"></div></section>
+
+<script>
+/* ===== Config (no tokens, no private data: this repo is public) ===== */
+const GIST_ID = "fb784b2ee123ed26dbd339f003984d65";
+
+/* ===== Date helpers: day numbers in UTC, "today" taken in the orchard's timezone ===== */
+const DAY = 86400000;
+const MONTHS = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const leap = y => (y%4===0 && y%100!==0) || y%400===0;
+function dnum(y,m,d){ if(m===2 && d===29 && !leap(y)) d=28; return Date.UTC(y,m-1,d)/DAY; }
+function fromISO(s){ const [y,m,d]=s.split("-").map(Number); return dnum(y,m,d); }
+function parts(n){ const t=new Date(n*DAY); return {y:t.getUTCFullYear(), m:t.getUTCMonth()+1, d:t.getUTCDate()}; }
+function iso(n){ const p=parts(n); return `${p.y}-${String(p.m).padStart(2,"0")}-${String(p.d).padStart(2,"0")}`; }
+function fmt(n){ const p=parts(n); return `${p.d} ${MONTHS[p.m-1]} ${p.y}`; }
+function fmtShort(n){ const p=parts(n); return `${p.d} ${MONTHS[p.m-1]}`; }
+function todayIn(tz){ return fromISO(new Intl.DateTimeFormat("en-CA",{timeZone:tz,year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())); }
+
+/* ===== Scheduling logic — keep identical to build_digest.py ===== */
+function occurrence(sch, y){
+  if(sch.type==="date"){ const s=dnum(y,sch.month,sch.day); return [s,s]; }
+  const s=dnum(y,sch.start.month,sch.start.day); let e=dnum(y,sch.end.month,sch.end.day);
+  if(e<s) e=dnum(y+1,sch.end.month,sch.end.day);
+  return [s,e];
+}
+function inSeason(active,n){
+  const y=parts(n).y; const a=occurrence({type:"window",...active},y), b=occurrence({type:"window",...active},y-1);
+  return (a[0]<=n && n<=a[1]) || (b[0]<=n && n<=b[1]);
+}
+function nextSeasonStart(active,n){
+  const y=parts(n).y;
+  for(const yy of [y,y+1]){ const s=occurrence({type:"window",...active},yy)[0]; if(s>=n) return s; }
+  return n;
+}
+function compute(task, state, today){
+  const st=state.settings;
+  const co = task.coming_up_days ?? st.coming_up_days, od = task.overdue_days ?? st.overdue_days;
+  const track = fromISO(st.tracking_start || "1900-01-01");
+  const entries = (state.log||[]).filter(e=>e.task===task.id);
+  const dues = new Set(entries.map(e=>e.due));
+  const done = entries.filter(e=>!e.skipped).map(e=>fromISO(e.done)).sort((a,b)=>a-b);
+  const lastDone = done.length ? done[done.length-1] : null;
+  const sch = task.schedule;
+  let curS, curE, periodStart;
+  if(sch.type==="interval"){
+    const every=sch.every_days;
+    let nd = lastDone!==null ? lastDone+every : Math.max(today,track);
+    if(sch.active && !inSeason(sch.active,nd)) nd=nextSeasonStart(sch.active,nd);
+    curS=curE=nd; periodStart = lastDone!==null ? lastDone : nd-every;
+  } else {
+    const y=parts(today).y, occ=[];
+    for(let yy=y-2; yy<=y+2; yy++) occ.push(occurrence(sch,yy));
+    const handled = o => dues.has(iso(o[0])) || o[0] < track;
+    const prevs = occ.filter(o=>o[0]<=today); const prev = prevs.length ? prevs[prevs.length-1] : null;
+    const nxt = occ.filter(o=>o[0]>today)[0];
+    const cur = (prev && !handled(prev)) ? prev : nxt;
+    [curS,curE]=cur; periodStart = occ[occ.indexOf(cur)-1][0];
+  }
+  let status;
+  if(task.optional) status="asneeded";
+  else if(today > curE+od) status="overdue";
+  else if(today >= curS-co) status="soon";
+  else status="ok";
+  return {task, status, due:curS, dueEnd:curE, lastDone, periodStart,
+          daysUntil:curS-today, daysOverdue:today-curE};
+}
+const RANK={overdue:0, soon:1, ok:2, asneeded:2};
+function sortCards(a,b){
+  if(a.status==="overdue" && b.status==="overdue") return b.daysOverdue-a.daysOverdue || a.task.name.localeCompare(b.task.name);
+  return RANK[a.status]-RANK[b.status] || a.due-b.due || a.task.name.localeCompare(b.task.name);
+}
+
+/* ===== Text ===== */
+const PILL={overdue:"Vencida", soon:"Pronto", ok:"Al día", asneeded:"Según necesidad"};
+function whenText(c){
+  if(c.status==="overdue") return `vencida hace ${c.daysOverdue} días`;
+  const n=c.daysUntil;
+  if(n>1) return `en ${n} días`; if(n===1) return "mañana"; if(n===0) return "hoy";
+  return `tocaba el ${fmtShort(c.due)}`;
+}
+function cadence(sch){
+  if(sch.type==="date") return `anual, ${sch.day} ${MONTHS[sch.month-1]}`;
+  if(sch.type==="window") return `anual, ${sch.start.day} ${MONTHS[sch.start.month-1]}–${sch.end.day} ${MONTHS[sch.end.month-1]}`;
+  return `cada ${sch.every_days} días`;
+}
+function doseText(t){
+  const d=t.dose; if(!d) return null; if(typeof d==="string") return d;
+  const p=[]; if(d.viejos) p.push("Viejos: "+d.viejos);
+  if(d.nuevos) p.push((d.viejos?"Nuevos: ":"Solo nuevos: ")+d.nuevos);
+  return p.join(" · ");
+}
+const esc = s => String(s).replace(/[&<>"']/g, ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+
+/* ===== Render ===== */
+let STATE=null, TODAY=null, CARDS=[], TAB="now";
+
+function cardHTML(c, i){
+  const t=c.task, dose=doseText(t);
+  const pct = c.status==="overdue" ? 100 : Math.max(0, Math.min(100, Math.round(100*(TODAY-c.periodStart)/Math.max(1,c.due-c.periodStart))));
+  const last = c.lastDone!==null ? fmtShort(c.lastDone) : "—";
+  const due = c.due===c.dueEnd ? fmtShort(c.due) : `${fmtShort(c.due)}–${fmtShort(c.dueEnd)}`;
+  return `<button class="card ${c.status}" data-i="${i}">
+    <div class="top"><div class="name">${esc(t.name)}</div><span class="pill ${c.status}">${PILL[c.status]}</span></div>
+    <div class="dates">${last} → ${due} <span class="cad">(${esc(cadence(t.schedule))})</span></div>
+    <div class="sec">${esc(whenText(c))}${dose?` · ${esc(dose)}`:""}</div>
+    ${t.trigger?`<div class="note">Cuándo: ${esc(t.trigger)}</div>`:""}
+    <div class="gauge" aria-hidden="true"><i class="${c.status}" style="width:${pct}%"></i></div>
+  </button>`;
+}
+
+function renderNow(){
+  const nO=CARDS.filter(c=>c.status==="overdue").length, nS=CARDS.filter(c=>c.status==="soon").length;
+  let h=`<div class="summary">
+    <div class="count ${nO?"red":""}"><b>${nO}</b><span>vencidas</span></div>
+    <div class="count ${nS?"amber":""}"><b>${nS}</b><span>pronto</span></div></div>`;
+  const issues=(STATE.issues||[]).filter(i=>i.status==="open"||i.status==="evaluate")
+    .sort((a,b)=>(a.status==="open"?0:1)-(b.status==="open"?0:1) || String(a.opened||"").localeCompare(String(b.opened||"")));
+  if(issues.length){
+    h+=`<h2>Problemas abiertos</h2>`+issues.map(i=>`<div class="logrow"><div class="mono">${i.status==="open"?"abierto":"evaluar"}${i.opened?` · ${fmtShort(fromISO(i.opened))}`:""}</div><div class="t">${esc(i.title)}</div>${i.notes?`<div class="note">${esc(i.notes)}</div>`:""}</div>`).join("");
+  }
+  const sorted=CARDS.map((c,i)=>[c,i]).sort((a,b)=>sortCards(a[0],b[0]));
+  const att=sorted.filter(([c])=>c.status==="overdue"||c.status==="soon");
+  const rest=sorted.filter(([c])=>!(c.status==="overdue"||c.status==="soon"));
+  h+=`<h2>Requiere atención</h2>`;
+  h+= att.length ? att.map(([c,i])=>cardHTML(c,i)).join("") : `<div class="empty">Nada pendiente para los próximos días.</div>`;
+  h+=`<h2>Más adelante</h2>`+rest.map(([c,i])=>cardHTML(c,i)).join("");
+  return h;
+}
+
+function renderAll(){
+  let h="";
+  const crops=STATE.crops||{};
+  const ids=[...new Set(CARDS.map(c=>c.task.crop))];
+  for(const cid of ids){
+    const crop=crops[cid]||{label:cid};
+    h+=`<h2>${esc(crop.label)}</h2>`;
+    h+=CARDS.map((c,i)=>[c,i]).filter(([c])=>c.task.crop===cid).sort((a,b)=>a[0].due-b[0].due).map(([c,i])=>cardHTML(c,i)).join("");
+    const ms=(STATE.milestones||[]).filter(m=>m.crop===cid);
+    if(ms.length){
+      h+=`<h2>Hitos · ${esc(crop.label)}</h2>`+ms.map(m=>{
+        const [s,e]=occurrence({type:"window",start:m.start,end:m.end},parts(TODAY).y);
+        return `<div class="milestone"><div class="mono">${s===e?fmtShort(s):fmtShort(s)+"–"+fmtShort(e)}</div>${esc(m.name)}</div>`;
+      }).join("");
+    }
+    if(crop.notes && crop.notes.length) h+=crop.notes.map(n=>`<div class="note" style="margin-bottom:8px">${esc(n)}</div>`).join("");
+  }
+  return h;
+}
+
+function renderLog(){
+  const names=Object.fromEntries(STATE.tasks.map(t=>[t.id,t.name]));
+  const log=[...(STATE.log||[])].sort((a,b)=>b.done.localeCompare(a.done));
+  if(!log.length) return `<h2>Registro</h2><div class="empty">Aún no hay tareas registradas. Cuéntale a Claude qué hiciste y aparecerá aquí.</div>`;
+  return `<h2>Registro</h2>`+log.map(e=>`<div class="logrow"><div class="mono">${fmt(fromISO(e.done))}${e.skipped?" · omitida":""}</div><div class="t">${esc(names[e.task]||e.task)}</div>${e.note?`<div class="note">${esc(e.note)}</div>`:""}</div>`).join("");
+}
+
+function render(){
+  const m=document.getElementById("main");
+  m.innerHTML = TAB==="now"?renderNow() : TAB==="all"?renderAll() : renderLog();
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", String(b.dataset.tab===TAB)));
+}
+
+/* ===== Bottom sheet ===== */
+function openSheet(i){
+  const c=CARDS[i], t=c.task, dose=t.dose;
+  let doseH="";
+  if(dose){
+    if(typeof dose==="string") doseH=`<dt>Dosis</dt><dd>${esc(dose)}</dd>`;
+    else {
+      if(dose.viejos) doseH+=`<dt>Dosis viejos</dt><dd>${esc(dose.viejos)}</dd>`;
+      if(dose.nuevos) doseH+=`<dt>Dosis nuevos</dt><dd>${esc(dose.nuevos)}</dd>`;
+      if(!dose.viejos) doseH+=`<dt>Viejos</dt><dd>No aplica</dd>`;
+    }
+  }
+  const hist=(STATE.log||[]).filter(e=>e.task===t.id).sort((a,b)=>b.done.localeCompare(a.done));
+  const due = c.due===c.dueEnd ? fmt(c.due) : `${fmtShort(c.due)} – ${fmt(c.dueEnd)}`;
+  document.getElementById("sheetInner").innerHTML = `
+    <div class="grab"></div>
+    <button class="close" id="closeBtn">Cerrar</button>
+    <h3 id="sheetTitle">${esc(t.name)}</h3>
+    <span class="pill ${c.status}">${PILL[c.status]}</span>
+    <dl class="kv">
+      <dt>Próxima vez</dt><dd class="mono">${due} · ${esc(whenText(c))}</dd>
+      <dt>Frecuencia</dt><dd>${esc(cadence(t.schedule))}</dd>
+      ${doseH}
+      ${t.trigger?`<dt>Cuándo</dt><dd>${esc(t.trigger)}</dd>`:""}
+      ${t.notes?`<dt>Notas</dt><dd>${esc(t.notes)}</dd>`:""}
+      <dt>Historial</dt><dd>${hist.length?`<ul class="hist">${hist.map(e=>`<li><span class="mono">${fmt(fromISO(e.done))}</span>${e.skipped?" · omitida":""}${e.note?` · ${esc(e.note)}`:""}</li>`).join("")}</ul>`:"Sin registros todavía."}</dd>
+    </dl>`;
+  document.getElementById("sheet").classList.add("open");
+  document.getElementById("scrim").classList.add("open");
+  document.getElementById("closeBtn").onclick=closeSheet;
+  document.getElementById("closeBtn").focus();
+}
+function closeSheet(){
+  document.getElementById("sheet").classList.remove("open");
+  document.getElementById("scrim").classList.remove("open");
+}
+document.getElementById("scrim").onclick=closeSheet;
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeSheet(); });
+document.getElementById("main").addEventListener("click",e=>{ const b=e.target.closest(".card"); if(b) openSheet(Number(b.dataset.i)); });
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{ TAB=b.dataset.tab; render(); window.scrollTo(0,0); });
+
+/* ===== Load: fetch the Gist live on every page load ===== */
+async function load(){
+  const upd=document.getElementById("updated");
+  try{
+    const r=await fetch(`https://api.github.com/gists/${GIST_ID}?t=${Date.now()}`,{headers:{Accept:"application/vnd.github+json"},cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const g=await r.json(); const f=g.files["state.json"];
+    STATE = f.truncated ? await (await fetch(f.raw_url+"?t="+Date.now(),{cache:"no-store"})).json() : JSON.parse(f.content);
+    TODAY = todayIn(STATE.settings.timezone || "America/Santiago");
+    CARDS = STATE.tasks.map(t=>compute(t,STATE,TODAY));
+    const u=new Date(g.updated_at);
+    const us=new Intl.DateTimeFormat("es-CL",{timeZone:STATE.settings.timezone,day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(u);
+    upd.innerHTML=`Datos actualizados: <span class="mono">${esc(us)}</span> · hoy <span class="mono">${fmtShort(TODAY)}</span>`;
+    render();
+  }catch(err){
+    upd.textContent="";
+    document.getElementById("main").innerHTML=`<div class="msg">No se pudieron cargar los datos (${esc(err.message)}). Revisa la conexión y recarga la página.</div>`;
+  }
+}
+load();
+</script>
+</body>
+</html>
