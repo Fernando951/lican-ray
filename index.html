@@ -214,7 +214,8 @@ function cardHTML(c, i){
   return `<button class="card ${c.status}" data-i="${i}">
     <div class="top"><div class="name">${esc(t.name)}</div><span class="pill ${c.status}">${PILL[c.status]}</span></div>
     <div class="dates">${last} → ${due} <span class="cad">(${esc(cadence(t.schedule))})</span></div>
-    <div class="sec">${esc(whenText(c))}${dose?` · ${esc(dose)}`:""}</div>
+    <div class="sec">${esc(whenText(c))}</div>
+    ${dose?`<div class="sec">${esc(dose)}</div>`:""}
     ${t.trigger?`<div class="note">Cuándo: ${esc(t.trigger)}</div>`:""}
     <div class="gauge" aria-hidden="true"><i class="${c.status}" style="width:${pct}%"></i></div>
   </button>`;
