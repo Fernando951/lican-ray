@@ -2,12 +2,13 @@
 """build_digest.py — computes digest.json and alerts.json for the Lican Ray orchard CWD.
 
 Reads state.json from the secret Gist and writes digest.json and alerts.json.
-Runs (a) in Claude's sandbox after every data change and (b) daily in GitHub Actions.
+Runs (a) in Claude's sandbox after every data change and (b) every Monday in GitHub Actions
+(.github/workflows/weekly-digest.yml), so the Monday email never reads a stale summary.
 
 IMPORTANT: index.html has its own copy of this logic in JavaScript. The two do not share code.
 If you change due dates, status thresholds, sorting or grouping here, change index.html too.
 """
-import json, os, sys, urllib.request
+import json, os, sys, urllib.request, urllib.error
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -24,9 +25,16 @@ def fetch_state():
     tok = os.environ.get("GH_TOKEN")
     if tok:
         headers["Authorization"] = "Bearer " + tok
-    url = f"https://api.github.com/gists/{GIST_ID}?t={int(datetime.now().timestamp())}"
-    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=30) as r:
-        g = json.load(r)
+    ts = int(datetime.now().timestamp())
+    url = f"https://api.github.com/gists/{GIST_ID}?t={ts}"
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=30) as r:
+            g = json.load(r)
+    except urllib.error.HTTPError:
+        # API refused (e.g. rate limit): fall back to the Gist's raw file
+        raw = f"https://gist.githubusercontent.com/Fernando951/{GIST_ID}/raw/state.json?t={ts}"
+        with urllib.request.urlopen(urllib.request.Request(raw, headers={"User-Agent": "lican-ray-digest"}), timeout=30) as r:
+            return json.load(r)
     f = g["files"]["state.json"]
     if f.get("truncated"):
         with urllib.request.urlopen(urllib.request.Request(f["raw_url"], headers=headers), timeout=30) as r:
