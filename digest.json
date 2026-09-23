@@ -53,7 +53,15 @@
       "days_until": 17
     }
   ],
-  "done_recently": [],
+  "done_recently": [
+    {
+      "task": "hurricane",
+      "name": "Hurricane",
+      "done": "2026-09-18",
+      "skipped": false,
+      "note": ""
+    }
+  ],
   "open_issues": [],
   "seasonal_note": null
 }
