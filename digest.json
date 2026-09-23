@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-09-23",
+  "dashboard": "https://fernando951.github.io/lican-ray/",
+  "name": "Huerto Lican Ray",
+  "overdue": [],
+  "due_next_30_days": [
+    {
+      "task": "urea-nitrato-postcuaja",
+      "crop": "ciruelo",
+      "name": "Urea + nitrato de potasio (post cuaja)",
+      "status": "soon",
+      "due": "2026-09-25",
+      "due_end": "2026-09-25",
+      "when": "en 2 días (25 sep 2026)",
+      "dose": "Viejos: 70 g urea + 270 g nitrato de potasio en ~20 L; regar antes / Nuevos: 70 g urea + 140 g nitrato de potasio en ~20 L; regar antes",
+      "trigger": null,
+      "days_until": 2
+    },
+    {
+      "task": "ca-mg-s",
+      "crop": "ciruelo",
+      "name": "Ca, Mg y S",
+      "status": "ok",
+      "due": "2026-10-01",
+      "due_end": "2026-10-01",
+      "when": "en 8 días (1 oct 2026)",
+      "dose": null,
+      "trigger": null,
+      "days_until": 8
+    },
+    {
+      "task": "hurricane-azufre",
+      "crop": "ciruelo",
+      "name": "Hurricane + azufre",
+      "status": "ok",
+      "due": "2026-10-10",
+      "due_end": "2026-10-10",
+      "when": "en 17 días (10 oct 2026)",
+      "dose": "1,5 g Hurricane + 30 g azufre / 10 L",
+      "trigger": "Control chanchito",
+      "days_until": 17
+    },
+    {
+      "task": "raleo",
+      "crop": "ciruelo",
+      "name": "Raleo",
+      "status": "ok",
+      "due": "2026-10-10",
+      "due_end": "2026-10-10",
+      "when": "en 17 días (10 oct 2026)",
+      "dose": null,
+      "trigger": null,
+      "days_until": 17
+    }
+  ],
+  "done_recently": [],
+  "open_issues": [],
+  "seasonal_note": null
+}
