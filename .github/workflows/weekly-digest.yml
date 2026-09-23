@@ -1,0 +1,33 @@
+name: Weekly digest
+# Recomputes digest.json and alerts.json every Monday before the weekly email.
+# 08:00 UTC = 05:00 Chile summer time / 04:00 Chile winter time.
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compute digest.json and alerts.json
+        run: python build_digest.py
+      - name: Commit if changed
+        run: |
+          git config user.name "digest-bot"
+          git config user.email "digest-bot@users.noreply.github.com"
+          git add digest.json alerts.json
+          git diff --cached --quiet || git commit -m "Weekly digest $(date -u +%F)"
+          git push
+      - name: Rebuild GitHub Pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api -X POST repos/${{ github.repository }}/pages/builds || true
