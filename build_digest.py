@@ -205,10 +205,102 @@ def build(state, today):
     return digest, alerts_doc
 
 
+# ---------- Email HTML (inline styles: Gmail ignores <style> blocks) ----------
+C = {"ink": "#16211B", "ink2": "#4A5650", "line": "#DCE1DC", "bg": "#FBFBF8", "plum": "#5A2346",
+     "red": "#B3261E", "redbg": "#FCE8E6", "amber": "#8A4B00", "amberbar": "#D98A1C", "amberbg": "#FDEFD3",
+     "green": "#22613A", "greenbar": "#3C8C57", "greenbg": "#E3F1E7", "neutral": "#4A5650", "neutralbg": "#ECEEEB"}
+PILL = {"overdue": ("Vencida", "#FFFFFF", C["red"], C["red"]),
+        "soon": ("Pronto", C["amber"], C["amberbg"], C["amberbar"]),
+        "ok": ("Al día", C["green"], C["greenbg"], C["greenbar"]),
+        "asneeded": ("Según necesidad", C["neutral"], C["neutralbg"], C["neutral"])}
+FONT = "Archivo,Helvetica,Arial,sans-serif"
+MONO = "'IBM Plex Mono',Menlo,Consolas,monospace"
+
+
+def esc(x):
+    return (str(x).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;"))
+
+
+def card(title, status, lines):
+    label, fg, bg, bar = PILL[status]
+    expanded = []
+    for t, col, extra in lines:
+        for part in (t.split(" / ") if t and not extra else [t]):
+            expanded.append((part, col, extra))
+    lines = expanded
+    body = "".join(f'<div style="font-size:15px;line-height:1.4;color:{col};margin-top:5px;{extra}">{esc(t)}</div>'
+                   for t, col, extra in lines if t)
+    return (f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;'
+            f'margin:0 0 12px;background:#FFFFFF;border:1.5px solid {C["line"]};border-left:6px solid {bar};border-radius:12px">'
+            f'<tr><td style="padding:12px 14px;font-family:{FONT};color:{C["ink"]}">'
+            f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>'
+            f'<td style="font-size:18px;font-weight:700;line-height:1.25;font-family:{FONT};color:{C["ink"]}">{esc(title)}</td>'
+            f'<td align="right" valign="top" style="white-space:nowrap;padding-left:8px">'
+            f'<span style="display:inline-block;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700;'
+            f'font-family:{FONT};color:{fg};background:{bg};border:1.5px solid {bar}">{label}</span></td></tr></table>'
+            f'{body}</td></tr></table>')
+
+
+def heading(t):
+    return (f'<div style="font-family:{FONT};font-size:14px;font-weight:700;color:{C["ink2"]};'
+            f'margin:22px 0 10px;text-transform:uppercase;letter-spacing:.04em">{esc(t)}</div>')
+
+
+def email_html(d, today):
+    h = [f'<div style="background:{C["bg"]};padding:20px 12px"><div style="max-width:560px;margin:0 auto">',
+         f'<div style="font-family:{FONT};font-size:26px;font-weight:800;color:{C["ink"]}">Huerto '
+         f'<span style="color:{C["plum"]}">Lican Ray</span></div>',
+         f'<div style="font-family:{MONO};font-size:14px;color:{C["ink2"]};margin-top:4px">Resumen semanal · {fmt(today)}</div>']
+    no, ns = len(d["overdue"]), sum(1 for x in d["due_next_30_days"] if x["status"] == "soon")
+    def box(n, lbl, fg, bg, bd):
+        return (f'<td width="50%" style="padding:0 4px"><div style="border:1.5px solid {bd};background:{bg};border-radius:12px;'
+                f'padding:10px 12px"><div style="font-family:{MONO};font-size:26px;font-weight:600;color:{fg}">{n}</div>'
+                f'<div style="font-family:{FONT};font-size:14px;color:{C["ink2"]}">{lbl}</div></div></td>')
+    h.append('<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0 0"><tr>'
+             + box(no, "vencidas", C["red"] if no else C["ink"], C["redbg"] if no else "#FFFFFF", C["red"] if no else C["line"])
+             + box(ns, "pronto (7 días)", C["amber"] if ns else C["ink"], C["amberbg"] if ns else "#FFFFFF", C["amberbar"] if ns else C["line"])
+             + '</tr></table>')
+    h.append(heading("Vencidas"))
+    if d["overdue"]:
+        for x in d["overdue"]:
+            h.append(card(x["name"], "overdue", [(x["when"], C["red"], "font-family:" + MONO + ";font-weight:600"),
+                                                 (x["dose"], C["ink"], ""), (("Cuándo: " + x["trigger"]) if x["trigger"] else None, C["ink2"], "")]))
+    else:
+        h.append(f'<div style="font-family:{FONT};font-size:15px;color:{C["ink2"]}">Nada vencido.</div>')
+    if d["due_next_30_days"]:
+        h.append(heading("Próximos 30 días"))
+        for x in d["due_next_30_days"]:
+            h.append(card(x["name"], x["status"], [(x["when"], C["ink"], "font-family:" + MONO),
+                                                   (x["dose"], C["ink"], ""), (("Cuándo: " + x["trigger"]) if x["trigger"] else None, C["ink2"], "")]))
+    if d["done_recently"]:
+        h.append(heading("Hecho recientemente"))
+        for x in d["done_recently"]:
+            dd = date.fromisoformat(x["done"])
+            extra = " · omitida" if x["skipped"] else ""
+            note = f' · {esc(x["note"])}' if x["note"] else ""
+            h.append(f'<div style="font-family:{FONT};font-size:15px;color:{C["ink"]};padding:8px 0;border-top:1px solid {C["line"]}">'
+                     f'<span style="font-family:{MONO};color:{C["ink2"]}">{dd.day} {MONTHS[dd.month-1]}</span> · {esc(x["name"])}{extra}{note}</div>')
+    if d["open_issues"]:
+        h.append(heading("Problemas abiertos"))
+        for i in d["open_issues"]:
+            h.append(f'<div style="font-family:{FONT};font-size:15px;color:{C["ink"]};padding:8px 0;border-top:1px solid {C["line"]}">'
+                     f'{"abierto" if i["status"] == "open" else "evaluar"} · {esc(i.get("title", ""))}</div>')
+    if d["seasonal_note"]:
+        h.append(f'<div style="font-family:{FONT};font-size:15px;color:{C["ink"]};background:#F3E9EF;border-radius:12px;'
+                 f'padding:12px 14px;margin-top:18px">🌸 {esc(d["seasonal_note"])}</div>')
+    h.append(f'<div style="margin:24px 0 8px"><a href="{d["dashboard"]}" style="display:inline-block;background:{C["plum"]};'
+             f'color:#FFFFFF;text-decoration:none;font-family:{FONT};font-weight:700;font-size:16px;padding:13px 20px;'
+             f'border-radius:12px">Abrir dashboard</a></div>')
+    h.append(f'<div style="font-family:{FONT};font-size:14px;color:{C["ink2"]};margin-top:14px">Cuéntale a Claude qué cambió para actualizar.</div>')
+    h.append('</div></div>')
+    return "".join(h)
+
+
 def main():
     state = fetch_state()
     today = datetime.now(ZoneInfo(state["settings"]["timezone"])).date()  # real date, never assumed
     digest, alerts = build(state, today)
+    digest["email_html"] = email_html(digest, today)
     out = sys.argv[1] if len(sys.argv) > 1 else "."
     with open(os.path.join(out, "digest.json"), "w", encoding="utf-8") as f:
         json.dump(digest, f, ensure_ascii=False, indent=2)
