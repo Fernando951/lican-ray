@@ -140,7 +140,7 @@ def dose_text(task):
         parts.append("Viejos: " + d["viejos"])
     if "nuevos" in d:
         parts.append(("Nuevos: " if "viejos" in d else "Solo nuevos: ") + d["nuevos"])
-    return " / ".join(parts)
+    return "\n".join(parts)
 
 
 def when_text(c, today):
@@ -225,7 +225,7 @@ def card(title, status, lines):
     label, fg, bg, bar = PILL[status]
     expanded = []
     for t, col, extra in lines:
-        for part in (t.split(" / ") if t and not extra else [t]):
+        for part in (t.split("\n") if t and not extra else [t]):
             expanded.append((part, col, extra))
     lines = expanded
     body = "".join(f'<div style="font-size:15px;line-height:1.4;color:{col};margin-top:5px;{extra}">{esc(t)}</div>'
