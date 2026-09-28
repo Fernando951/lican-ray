@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """build_digest.py — computes digest.json and alerts.json for the Lican Ray orchard CWD.
 
-Reads state.json from the secret Gist and writes digest.json and alerts.json.
+Reads state.json from this repo (moved here from the secret Gist on 2026-09-28) and writes
+digest.json and alerts.json. If state.json is missing, it is copied once from the Gist.
 Runs (a) in Claude's sandbox after every data change and (b) every Monday in GitHub Actions
 (.github/workflows/weekly-digest.yml), so the Monday email never reads a stale summary.
 
@@ -296,8 +297,23 @@ def email_html(d, today):
     return "".join(h)
 
 
+STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "state.json")
+
+
+def load_state():
+    if os.path.exists(STATE_FILE):
+        with open(STATE_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    state = fetch_state()  # one-time migration from the Gist
+    with open(STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    print("state.json copied from the Gist")
+    return state
+
+
 def main():
-    state = fetch_state()
+    state = load_state()
     today = datetime.now(ZoneInfo(state["settings"]["timezone"])).date()  # real date, never assumed
     digest, alerts = build(state, today)
     digest["email_html"] = email_html(digest, today)
