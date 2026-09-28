@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-24",
+  "generated_at": "2026-09-28",
   "dashboard": "https://fernando951.github.io/lican-ray/",
   "name": "Huerto Lican Ray",
-  "items": []
+  "items": [
+    {
+      "task": "urea-nitrato-postcuaja",
+      "crop": "ciruelo",
+      "name": "Urea + nitrato de potasio (post cuaja)",
+      "status": "soon",
+      "due": "2026-09-25",
+      "due_end": "2026-09-25",
+      "when": "tocaba el 25 sep 2026",
+      "dose": "Viejos: 70 g urea + 270 g nitrato de potasio en ~20 L; regar antes\nNuevos: 70 g urea + 140 g nitrato de potasio en ~20 L; regar antes",
+      "trigger": null
+    }
+  ]
 }
