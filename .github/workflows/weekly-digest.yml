@@ -3,7 +3,10 @@ name: Weekly digest
 # 08:00 UTC = 05:00 Chile summer time / 04:00 Chile winter time.
 on:
   schedule:
-    - cron: "0 8 * * 1"
+    # GitHub delays scheduled runs (on 28 Sep 2026 the 08:00 run started at 15:02),
+    # so run daily and retry on Monday mornings, avoiding minute 0.
+    - cron: "41 4 * * *"
+    - cron: "17 7,9 * * 1"
   workflow_dispatch:
 
 permissions:
