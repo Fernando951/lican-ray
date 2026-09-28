@@ -1,0 +1,343 @@
+{
+  "version": 1,
+  "orchard": "Lican Ray",
+  "settings": {
+    "timezone": "America/Santiago",
+    "coming_up_days": 7,
+    "overdue_days": 3,
+    "tracking_start": "2026-09-23"
+  },
+  "crops": {
+    "ciruelo": {
+      "label": "Ciruelos",
+      "age_classes": {
+        "viejos": "Viejos (~30 años, 2 árboles)",
+        "nuevos": "Nuevos (~4 años)"
+      },
+      "notes": [
+        "Un puñado ≈ 70 g.",
+        "Regla práctica Lican Ray para fertilizantes: 1ª aplicación en brotación; 2ª 5–6 semanas después (post floración/cuaja); 3ª (si aplica) 6–8 semanas después de la 2ª; postcosecha 2–3 semanas después de cosechar."
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "id": "cu-aceite-1",
+      "crop": "ciruelo",
+      "name": "Oxicloruro de Cu + aceite Springhill (1ª)",
+      "category": "spray",
+      "schedule": {
+        "type": "date",
+        "month": 6,
+        "day": 30
+      },
+      "dose": "100 g oxicloruro de Cu + 50 cc aceite Springhill / 10 L",
+      "trigger": "Yema hinchada",
+      "notes": "Aplicar a maderas, mojar bien. También a 3 perales."
+    },
+    {
+      "id": "poda-invernal",
+      "crop": "ciruelo",
+      "name": "Poda invernal",
+      "category": "prune",
+      "schedule": {
+        "type": "date",
+        "month": 7,
+        "day": 15
+      }
+    },
+    {
+      "id": "fosforo",
+      "crop": "ciruelo",
+      "name": "Fósforo",
+      "category": "fertilize",
+      "schedule": {
+        "type": "date",
+        "month": 7,
+        "day": 15
+      },
+      "dose": {
+        "viejos": "80–150 g superfosfato o superfosfato triple",
+        "nuevos": "40–75 g (la mitad que los viejos)"
+      },
+      "notes": "Un puñado ≈ 70 g."
+    },
+    {
+      "id": "cu-aceite-2",
+      "crop": "ciruelo",
+      "name": "Oxicloruro de Cu + aceite Springhill (2ª)",
+      "category": "spray",
+      "schedule": {
+        "type": "date",
+        "month": 7,
+        "day": 30
+      },
+      "dose": "100 g oxicloruro de Cu + 50 cc aceite Springhill / 10 L",
+      "trigger": "Yema hinchada pero sin color de flor en la punta",
+      "notes": "Aplicar a maderas, mojar bien."
+    },
+    {
+      "id": "rango-480",
+      "crop": "ciruelo",
+      "name": "Rango 480 SL (maleza)",
+      "category": "weeds",
+      "schedule": {
+        "type": "date",
+        "month": 8,
+        "day": 3
+      },
+      "dose": "70 cc / 10 L",
+      "notes": "Eliminar maleza. No cortar la maleza."
+    },
+    {
+      "id": "n-prebrotacion",
+      "crop": "ciruelo",
+      "name": "Nitrógeno pre brotación",
+      "category": "fertilize",
+      "schedule": {
+        "type": "date",
+        "month": 8,
+        "day": 10
+      },
+      "dose": {
+        "viejos": "140 g urea (2 puñados colmados)",
+        "nuevos": "120 g urea (casi 2 puñados)"
+      },
+      "notes": "4 puñados viejos, dos puñados a jóvenes."
+    },
+    {
+      "id": "bravo-720",
+      "crop": "ciruelo",
+      "name": "Bravo 720",
+      "category": "spray",
+      "schedule": {
+        "type": "date",
+        "month": 8,
+        "day": 25
+      },
+      "dose": "12 cc / 10 L",
+      "trigger": "Botones abiertos",
+      "notes": "También a perales."
+    },
+    {
+      "id": "hurricane",
+      "crop": "ciruelo",
+      "name": "Hurricane",
+      "category": "spray",
+      "schedule": {
+        "type": "date",
+        "month": 9,
+        "day": 18
+      },
+      "dose": "1,5 g / 10 L",
+      "trigger": "Con brotes verdes, una vez se observe plaga",
+      "notes": "Aplicar a hojas desde abajo, mojar el envés. Temprano en la mañana, mojar abundante."
+    },
+    {
+      "id": "urea-nitrato-postcuaja",
+      "crop": "ciruelo",
+      "name": "Urea + nitrato de potasio (post cuaja)",
+      "category": "fertilize",
+      "schedule": {
+        "type": "date",
+        "month": 9,
+        "day": 25
+      },
+      "dose": {
+        "viejos": "70 g urea + 270 g nitrato de potasio en ~20 L; regar antes",
+        "nuevos": "70 g urea + 140 g nitrato de potasio en ~20 L; regar antes"
+      }
+    },
+    {
+      "id": "ca-mg-s",
+      "crop": "ciruelo",
+      "name": "Ca, Mg y S",
+      "category": "fertilize",
+      "schedule": {
+        "type": "date",
+        "month": 10,
+        "day": 1
+      },
+      "notes": "Idealmente, con un fertilizante que los contenga."
+    },
+    {
+      "id": "hurricane-azufre",
+      "crop": "ciruelo",
+      "name": "Hurricane + azufre",
+      "category": "spray",
+      "schedule": {
+        "type": "date",
+        "month": 10,
+        "day": 10
+      },
+      "dose": "1,5 g Hurricane + 30 g azufre / 10 L",
+      "trigger": "Control chanchito"
+    },
+    {
+      "id": "raleo",
+      "crop": "ciruelo",
+      "name": "Raleo",
+      "category": "thin",
+      "schedule": {
+        "type": "date",
+        "month": 10,
+        "day": 10
+      }
+    },
+    {
+      "id": "jabon-neem",
+      "crop": "ciruelo",
+      "name": "Jabón potásico + aceite neem",
+      "category": "spray",
+      "schedule": {
+        "type": "date",
+        "month": 10,
+        "day": 30
+      },
+      "trigger": "Control chanchito / pulgón"
+    },
+    {
+      "id": "poda-verde",
+      "crop": "ciruelo",
+      "name": "Poda en verde",
+      "category": "prune",
+      "schedule": {
+        "type": "date",
+        "month": 11,
+        "day": 24
+      }
+    },
+    {
+      "id": "magister",
+      "crop": "ciruelo",
+      "name": "Magister 20 (opcional)",
+      "category": "spray",
+      "optional": true,
+      "schedule": {
+        "type": "date",
+        "month": 12,
+        "day": 10
+      },
+      "dose": "10 cc / 10 L",
+      "trigger": "Revisar daño por arañita roja; validar necesidad",
+      "notes": "Aplicar a todos los frutales. 3 estanques, mojar hojas."
+    },
+    {
+      "id": "dithane",
+      "crop": "ciruelo",
+      "name": "Dithane",
+      "category": "spray",
+      "schedule": {
+        "type": "date",
+        "month": 2,
+        "day": 10
+      },
+      "dose": "100 g / 10 L"
+    },
+    {
+      "id": "urea-nitrato-postcosecha",
+      "crop": "ciruelo",
+      "name": "Urea + nitrato de potasio (post cosecha)",
+      "category": "fertilize",
+      "schedule": {
+        "type": "date",
+        "month": 2,
+        "day": 14
+      },
+      "dose": {
+        "nuevos": "50 g urea + 75 g nitrato en ~20 L; regar antes e idealmente después (sin que escurra)"
+      }
+    }
+  ],
+  "milestones": [
+    {
+      "crop": "ciruelo",
+      "name": "5% botones abiertos en viejos (nuevos cerrados)",
+      "start": {
+        "month": 8,
+        "day": 15
+      },
+      "end": {
+        "month": 8,
+        "day": 15
+      }
+    },
+    {
+      "crop": "ciruelo",
+      "name": "Plena flor ciruelos viejos",
+      "start": {
+        "month": 9,
+        "day": 5
+      },
+      "end": {
+        "month": 9,
+        "day": 10
+      }
+    },
+    {
+      "crop": "ciruelo",
+      "name": "Cosecha ciruelos viejos",
+      "start": {
+        "month": 1,
+        "day": 25
+      },
+      "end": {
+        "month": 2,
+        "day": 5
+      }
+    }
+  ],
+  "log": [
+    {
+      "task": "cu-aceite-1",
+      "due": "2026-06-30",
+      "done": "2026-06-30",
+      "note": ""
+    },
+    {
+      "task": "poda-invernal",
+      "due": "2026-07-15",
+      "done": "2026-07-15",
+      "note": ""
+    },
+    {
+      "task": "fosforo",
+      "due": "2026-07-15",
+      "done": "2026-07-15",
+      "note": ""
+    },
+    {
+      "task": "cu-aceite-2",
+      "due": "2026-07-30",
+      "done": "2026-07-30",
+      "note": ""
+    },
+    {
+      "task": "rango-480",
+      "due": "2026-08-03",
+      "done": "2026-08-03",
+      "note": ""
+    },
+    {
+      "task": "n-prebrotacion",
+      "due": "2026-08-10",
+      "done": "2026-08-10",
+      "note": "No se hizo esta temporada",
+      "skipped": true
+    },
+    {
+      "task": "bravo-720",
+      "due": "2026-08-25",
+      "done": "2026-08-25",
+      "note": "No se hizo esta temporada",
+      "skipped": true
+    },
+    {
+      "task": "hurricane",
+      "due": "2026-09-18",
+      "done": "2026-09-18",
+      "note": ""
+    }
+  ],
+  "issues": []
+}
