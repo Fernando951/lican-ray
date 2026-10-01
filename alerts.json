@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-30",
+  "generated_at": "2026-10-01",
   "dashboard": "https://fernando951.github.io/lican-ray/",
   "name": "Huerto Lican Ray",
-  "items": []
+  "items": [
+    {
+      "task": "ca-mg-s",
+      "crop": "ciruelo",
+      "name": "Ca, Mg y S",
+      "status": "soon",
+      "due": "2026-10-01",
+      "due_end": "2026-10-01",
+      "when": "hoy",
+      "dose": null,
+      "trigger": null
+    }
+  ]
 }
