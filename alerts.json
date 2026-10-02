@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01",
+  "generated_at": "2026-10-02",
   "dashboard": "https://fernando951.github.io/lican-ray/",
   "name": "Huerto Lican Ray",
   "items": [
@@ -10,7 +10,7 @@
       "status": "soon",
       "due": "2026-10-01",
       "due_end": "2026-10-01",
-      "when": "hoy",
+      "when": "tocaba el 1 oct 2026",
       "dose": null,
       "trigger": null
     }
