@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04",
+  "generated_at": "2026-10-05",
   "dashboard": "https://fernando951.github.io/lican-ray/",
   "name": "Huerto Lican Ray",
   "items": [
@@ -7,10 +7,10 @@
       "task": "ca-mg-s",
       "crop": "ciruelo",
       "name": "Ca, Mg y S",
-      "status": "soon",
+      "status": "overdue",
       "due": "2026-10-01",
       "due_end": "2026-10-01",
-      "when": "tocaba el 1 oct 2026",
+      "when": "vencida hace 4 días (tocaba 1 oct 2026)",
       "dose": null,
       "trigger": null
     }
