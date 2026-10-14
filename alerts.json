@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-13",
+  "generated_at": "2026-10-14",
   "dashboard": "https://fernando951.github.io/lican-ray/",
   "name": "Huerto Lican Ray",
   "items": [
@@ -10,7 +10,7 @@
       "status": "overdue",
       "due": "2026-10-01",
       "due_end": "2026-10-01",
-      "when": "vencida hace 12 días (tocaba 1 oct 2026)",
+      "when": "vencida hace 13 días (tocaba 1 oct 2026)",
       "dose": null,
       "trigger": null
     },
@@ -18,10 +18,10 @@
       "task": "hurricane-azufre",
       "crop": "ciruelo",
       "name": "Hurricane + azufre",
-      "status": "soon",
+      "status": "overdue",
       "due": "2026-10-10",
       "due_end": "2026-10-10",
-      "when": "tocaba el 10 oct 2026",
+      "when": "vencida hace 4 días (tocaba 10 oct 2026)",
       "dose": "1,5 g Hurricane + 30 g azufre / 10 L",
       "trigger": "Control chanchito"
     },
@@ -29,10 +29,10 @@
       "task": "raleo",
       "crop": "ciruelo",
       "name": "Raleo",
-      "status": "soon",
+      "status": "overdue",
       "due": "2026-10-10",
       "due_end": "2026-10-10",
-      "when": "tocaba el 10 oct 2026",
+      "when": "vencida hace 4 días (tocaba 10 oct 2026)",
       "dose": null,
       "trigger": null
     }
