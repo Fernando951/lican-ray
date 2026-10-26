@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25",
+  "generated_at": "2026-10-26",
   "dashboard": "https://fernando951.github.io/lican-ray/",
   "name": "Huerto Lican Ray",
   "items": [
@@ -10,7 +10,7 @@
       "status": "overdue",
       "due": "2026-10-01",
       "due_end": "2026-10-01",
-      "when": "vencida hace 24 días (tocaba 1 oct 2026)",
+      "when": "vencida hace 25 días (tocaba 1 oct 2026)",
       "dose": null,
       "trigger": null
     },
@@ -21,7 +21,7 @@
       "status": "overdue",
       "due": "2026-10-10",
       "due_end": "2026-10-10",
-      "when": "vencida hace 15 días (tocaba 10 oct 2026)",
+      "when": "vencida hace 16 días (tocaba 10 oct 2026)",
       "dose": "1,5 g Hurricane + 30 g azufre / 10 L",
       "trigger": "Control chanchito"
     },
@@ -32,7 +32,7 @@
       "status": "overdue",
       "due": "2026-10-10",
       "due_end": "2026-10-10",
-      "when": "vencida hace 15 días (tocaba 10 oct 2026)",
+      "when": "vencida hace 16 días (tocaba 10 oct 2026)",
       "dose": null,
       "trigger": null
     }
