@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27",
+  "generated_at": "2026-11-28",
   "dashboard": "https://fernando951.github.io/lican-ray/",
   "name": "Huerto Lican Ray",
   "items": [
@@ -10,7 +10,7 @@
       "status": "overdue",
       "due": "2026-10-01",
       "due_end": "2026-10-01",
-      "when": "vencida hace 57 días (tocaba 1 oct 2026)",
+      "when": "vencida hace 58 días (tocaba 1 oct 2026)",
       "dose": null,
       "trigger": null
     },
@@ -21,7 +21,7 @@
       "status": "overdue",
       "due": "2026-10-10",
       "due_end": "2026-10-10",
-      "when": "vencida hace 48 días (tocaba 10 oct 2026)",
+      "when": "vencida hace 49 días (tocaba 10 oct 2026)",
       "dose": "1,5 g Hurricane + 30 g azufre / 10 L",
       "trigger": "Control chanchito"
     },
@@ -32,7 +32,7 @@
       "status": "overdue",
       "due": "2026-10-10",
       "due_end": "2026-10-10",
-      "when": "vencida hace 48 días (tocaba 10 oct 2026)",
+      "when": "vencida hace 49 días (tocaba 10 oct 2026)",
       "dose": null,
       "trigger": null
     },
@@ -43,7 +43,7 @@
       "status": "overdue",
       "due": "2026-10-30",
       "due_end": "2026-10-30",
-      "when": "vencida hace 28 días (tocaba 30 oct 2026)",
+      "when": "vencida hace 29 días (tocaba 30 oct 2026)",
       "dose": null,
       "trigger": "Control chanchito / pulgón"
     },
@@ -51,10 +51,10 @@
       "task": "poda-verde",
       "crop": "ciruelo",
       "name": "Poda en verde",
-      "status": "soon",
+      "status": "overdue",
       "due": "2026-11-24",
       "due_end": "2026-11-24",
-      "when": "tocaba el 24 nov 2026",
+      "when": "vencida hace 4 días (tocaba 24 nov 2026)",
       "dose": null,
       "trigger": null
     }
